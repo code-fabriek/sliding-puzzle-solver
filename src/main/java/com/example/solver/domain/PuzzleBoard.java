@@ -67,7 +67,7 @@ public class PuzzleBoard {
      * @return the sum of all permutation inversions on the board
      * @see <a href="http://mathworld.wolfram.com/PermutationInversion.html">Wolfram Mathworld</a>
      */
-    public int getInversionCount() {
+    private int getInversionCount() {
         int inversions = 0;
 
         // walk through tiles counting the number of tiles to the right with a lower value
