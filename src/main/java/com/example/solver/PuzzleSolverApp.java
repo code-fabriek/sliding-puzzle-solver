@@ -24,9 +24,10 @@ public class PuzzleSolverApp {
 
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.out.println("Sliding puzzle solver app\n");
-            System.out.println("Usage: java -jar sliding-puzzle-solver.jar [FILE]\n");
+            System.out.println("Sliding puzzle solver app");
+            System.out.println("Usage: java -jar sliding-puzzle-solver.jar [FILE]");
             System.out.println("[FILE] = initial puzzle board values");
+            Runtime.getRuntime().exit(1);
         }
 
         String boardData = args[0];
