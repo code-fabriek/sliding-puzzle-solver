@@ -180,7 +180,7 @@ public class PuzzleBoard {
      * @return the sum of all permutation inversions on the board
      * @see <a href="http://mathworld.wolfram.com/PermutationInversion.html">Wolfram Mathworld</a>
      */
-    private int getInversionCount() {
+    public int getInversionCount() {
         int inversions = 0;
 
         // walk through tiles counting the number of tiles to the right with a lower value
@@ -249,7 +249,7 @@ public class PuzzleBoard {
         if (this.size % 2 == 0) {
             // when board size is even, parity of empty tile row position from bottom must
             // be the inverse of inversion count parity
-            int emptyTileRow = (((this.size * this.size) - this.emptyTilePosition + 1) / this.size) + 1;
+            int emptyTileRow = (((this.size * this.size) - this.emptyTilePosition + 1) / this.size);
             return (emptyTileRow % 2 != this.getInversionCount() % 2);
 
         } else {

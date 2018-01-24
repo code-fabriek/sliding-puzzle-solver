@@ -45,6 +45,7 @@ public class PuzzleBoardTest {
         assertEquals(9, puzzleBoard.getEmptyTilePosition());
 
         assertEquals(EnumSet.allOf(MoveDirection.class), puzzleBoard.getAvailableMoves());
+        assertEquals(49, puzzleBoard.getInversionCount());
     }
 
     @Test public void testCreateNoEmptyTileBoardThrowsError() throws PuzzleBoardException {
