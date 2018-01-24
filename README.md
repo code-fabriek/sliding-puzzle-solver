@@ -1,10 +1,20 @@
 # sliding-puzzle-solver
-An example app for solving a sliding puzzle
+A sliding puzzle solver app written in Java that attempts to solve an 
+[8-puzzle / 15-puzzle](https://en.wikipedia.org/wiki/15_puzzle) board layout loaded from a text file.  
 
-Sliding puzzle solver
----------------------
+## Example board layout
+The app loads the initial board layout from a text file, each line in the file represents a row on the board and
+each tile value separated by a delimiter (space/comma).  For example, a 3x3 board layout file would look like:
 
-The initial state is fed to the program as a sequence of numbers in a text file.
+```
+0 3 7
+1 2 5
+4 6 8
+``` 
 
-The output is a printout of the succession of states resulting from single moves that progress the puzzle from the 
-initial state to the solved state.
+## Running the solver
+
+```bash
+gradlew build
+gradlew run 3x3-board.txt
+```
