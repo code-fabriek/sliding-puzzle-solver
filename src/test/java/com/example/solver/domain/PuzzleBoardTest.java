@@ -4,6 +4,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.EnumSet;
+
 import static org.junit.Assert.*;
 
 public class PuzzleBoardTest {
@@ -29,6 +31,10 @@ public class PuzzleBoardTest {
         assertNotNull(puzzleBoard);
         assertEquals(3, puzzleBoard.getSize());
         assertArrayEquals(BOARD_TILES_3x3, puzzleBoard.getTiles());
+        assertEquals(0, puzzleBoard.getEmptyTilePosition());
+
+        assertEquals(EnumSet.of(MoveDirection.DOWN, MoveDirection.RIGHT), puzzleBoard.getAvailableMoves());
+
     }
 
     @Test public void testCreate4x4Board() throws PuzzleBoardException {
@@ -36,6 +42,9 @@ public class PuzzleBoardTest {
         assertNotNull(puzzleBoard);
         assertEquals(4, puzzleBoard.getSize());
         assertArrayEquals(BOARD_TILES_4x4, puzzleBoard.getTiles());
+        assertEquals(9, puzzleBoard.getEmptyTilePosition());
+
+        assertEquals(EnumSet.allOf(MoveDirection.class), puzzleBoard.getAvailableMoves());
     }
 
     @Test public void testCreateNoEmptyTileBoardThrowsError() throws PuzzleBoardException {
@@ -73,6 +82,40 @@ public class PuzzleBoardTest {
                 2, 7, 8, 5
         };
         new PuzzleBoard(4, unsolvableTiles);
+    }
+
+    @Test public void testMoveTileDown() throws PuzzleBoardException {
+        int[] expectedTilesAfterMove = new int[] {
+                1, 3, 7,
+                0, 2, 5,
+                4, 6, 8
+        };
+        PuzzleBoard puzzleBoard = new PuzzleBoard(3, BOARD_TILES_3x3);
+        puzzleBoard.moveTile(MoveDirection.DOWN);
+
+        assertArrayEquals(expectedTilesAfterMove, puzzleBoard.getTiles());
+        assertEquals(3, puzzleBoard.getEmptyTilePosition());
+
+        assertEquals(EnumSet.of(MoveDirection.UP, MoveDirection.DOWN, MoveDirection.RIGHT),
+                puzzleBoard.getAvailableMoves());
+
+    }
+
+    @Test public void testMoveTileRight() throws PuzzleBoardException {
+        int[] expectedTilesAfterMove = new int[] {
+                3, 0, 7,
+                1, 2, 5,
+                4, 6, 8
+        };
+        PuzzleBoard puzzleBoard = new PuzzleBoard(3, BOARD_TILES_3x3);
+        puzzleBoard.moveTile(MoveDirection.RIGHT);
+
+        assertArrayEquals(expectedTilesAfterMove, puzzleBoard.getTiles());
+        assertEquals(1, puzzleBoard.getEmptyTilePosition());
+
+        assertEquals(EnumSet.of(MoveDirection.DOWN, MoveDirection.LEFT, MoveDirection.RIGHT),
+                puzzleBoard.getAvailableMoves());
+
     }
 
 }

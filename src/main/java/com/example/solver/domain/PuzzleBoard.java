@@ -2,9 +2,12 @@ package com.example.solver.domain;
 
 import com.google.common.primitives.Ints;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
+
+enum MoveDirection { UP, DOWN, LEFT, RIGHT }
 
 public class PuzzleBoard {
 
@@ -27,7 +30,7 @@ public class PuzzleBoard {
             throw new IllegalArgumentException("An initial set of board values must be provided");
         }
         this.size = size;
-        this.tiles = tiles;
+        this.tiles = tiles.clone();
         this.emptyTilePosition = Ints.indexOf(this.tiles, 0);
 
         this.validateInitialBoard();
@@ -62,6 +65,70 @@ public class PuzzleBoard {
     }
 
     /**
+     * Checks if the current tile arrangement is a solved state.
+     *
+     * @return true if all tile values are sorted in ascending order, false otherwise
+     */
+    public boolean isSolved() {
+        return this.getInversionCount() == 0;
+    }
+
+
+    /**
+     * Returns a set of valid moves given the current empty tile position
+     *
+     * @return
+     */
+    public Set<MoveDirection> getAvailableMoves() {
+        EnumSet<MoveDirection> validMoves = EnumSet.noneOf(MoveDirection.class);
+
+        if (this.emptyTilePosition / this.size > 0) {
+            validMoves.add(MoveDirection.UP);
+        }
+        if (this.emptyTilePosition / this.size < (this.size - 1)) {
+            validMoves.add(MoveDirection.DOWN);
+        }
+        if (this.emptyTilePosition % this.size != 0) {
+            validMoves.add(MoveDirection.LEFT);
+        }
+        if ((this.emptyTilePosition + 1) % this.size != 0) {
+            validMoves.add(MoveDirection.RIGHT);
+        }
+
+        return validMoves;
+    }
+
+    /**
+     * Swaps the tile in the specified direction with the empty tile.
+     *
+     * @param direction the direction to move the empty tile
+     */
+    public void moveTile(MoveDirection direction) {
+        int swapPosition;
+        switch (direction) {
+            case UP:
+                swapPosition = this.emptyTilePosition - this.size;
+                break;
+            case DOWN:
+                swapPosition = this.emptyTilePosition + this.size;
+                break;
+            case LEFT:
+                swapPosition = this.emptyTilePosition - 1;
+                break;
+            case RIGHT:
+                swapPosition = this.emptyTilePosition + 1;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid move direction");
+        }
+
+        this.tiles[this.emptyTilePosition] = this.tiles[swapPosition];
+        this.tiles[swapPosition] = 0;
+        this.emptyTilePosition = swapPosition;
+
+    }
+
+    /**
      * Counts the number of permutation inversions in the puzzle board tile values.
      *
      * @return the sum of all permutation inversions on the board
@@ -72,6 +139,11 @@ public class PuzzleBoard {
 
         // walk through tiles counting the number of tiles to the right with a lower value
         for (int i = 0; i < this.tiles.length - 1; i++) {
+            // skip the empty tile
+            if (i == this.emptyTilePosition) {
+                continue;
+            }
+
             for (int j = i + 1; j < this.tiles.length; j++) {
                 if (this.tiles[i] > this.tiles[j]) {
                     inversions++;
