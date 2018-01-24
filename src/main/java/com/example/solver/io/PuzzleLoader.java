@@ -6,9 +6,11 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.google.common.primitives.Ints;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -26,8 +28,16 @@ public class PuzzleLoader {
      * @throws IOException if an error occurs reading the data file
      */
     private static int[][] loadBoardValues(String filePath) throws IOException {
-        URL file = Resources.getResource(filePath);
-        ImmutableList<String> lines = Resources.asCharSource(file, Charsets.UTF_8).readLines();
+        ImmutableList<String> lines;
+
+        // try reading from an external file first, then from the classpath
+        File boardFile = new File(filePath);
+        if (boardFile.exists()) {
+            lines = Files.asCharSource(boardFile, Charsets.UTF_8).readLines();
+        } else {
+            URL file = Resources.getResource(filePath);
+            lines = Resources.asCharSource(file, Charsets.UTF_8).readLines();
+        }
 
         int[][] tileGrid = new int[lines.size()][];
         for (int i = 0; i < lines.size(); i++) {

@@ -16,6 +16,8 @@ import java.util.*;
  * @see <a href="https://github.com/code-fabriek/sliding-puzzle-solver">Github project</a>
  */
 public class PuzzleSolverApp {
+
+    private static final long MAX_ITERATIONS = 1000000;
     private static final Logger logger = LogManager.getLogger();
 
     private PriorityQueue<PuzzleBoard> queue;
@@ -51,7 +53,7 @@ public class PuzzleSolverApp {
             }
 
         } catch (PuzzleBoardException e) {
-            logger.error("Invalid game board data - exiting");
+            logger.error("Invalid game board data - exiting", e);
         }
     }
 
@@ -90,10 +92,9 @@ public class PuzzleSolverApp {
     public PuzzleBoard solve() {
         Set<PuzzleBoard> visitedBoardStates = new HashSet<>();
         int iterations = 0;
-        int maxIterations = 300000;
         while (this.queue.size() > 0) {
             iterations++;
-            if (iterations > maxIterations) {
+            if (iterations > MAX_ITERATIONS) {
                 logger.error("Unable to find solution before max iterations reached");
                 break;
             }

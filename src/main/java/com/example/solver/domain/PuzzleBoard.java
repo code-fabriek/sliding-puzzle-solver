@@ -82,15 +82,16 @@ public class PuzzleBoard {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(String.format("\n === Board Moves: %d === \n", this.moves.size()));
+        StringBuilder sb = new StringBuilder(
+                String.format(" === Board Moves: %d === ", this.moves.size()));
         for (int i = 0; i < tiles.length; i++) {
-            sb.append(tiles[i]);
-            if (i % this.size != 0) {
+            if (i % this.size != 0 ) {
                 sb.append(" | ");
             } else {
                 sb.append("\n");
             }
+            String tileValue = tiles[i] == 0 ? " " : Integer.toString(tiles[i]);
+            sb.append(tileValue);
         }
         return sb.toString();
     }
@@ -184,13 +185,8 @@ public class PuzzleBoard {
 
         // walk through tiles counting the number of tiles to the right with a lower value
         for (int i = 0; i < this.tiles.length - 1; i++) {
-            // skip the empty tile
-            if (i == this.emptyTilePosition) {
-                continue;
-            }
-
             for (int j = i + 1; j < this.tiles.length; j++) {
-                if (this.tiles[i] > this.tiles[j]) {
+                if (this.tiles[i] > this.tiles[j] && j != this.emptyTilePosition) {
                     inversions++;
                 }
             }

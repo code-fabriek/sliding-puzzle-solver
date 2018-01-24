@@ -84,6 +84,12 @@ public class PuzzleBoardTest {
         new PuzzleBoard(4, unsolvableTiles);
     }
 
+    @Test public void testToString() throws PuzzleBoardException {
+        String expectedBoard = " === Board Moves: 0 === \n  | 3 | 7\n1 | 2 | 5\n4 | 6 | 8";
+        PuzzleBoard puzzleBoard = new PuzzleBoard(3, BOARD_TILES_3x3);
+        assertEquals(expectedBoard, puzzleBoard.toString());
+    }
+
     @Test public void testMoveTileDown() throws PuzzleBoardException {
         int[] expectedTilesAfterMove = new int[] {
                 1, 3, 7,

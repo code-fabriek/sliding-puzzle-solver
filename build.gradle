@@ -11,6 +11,9 @@ apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
 
+// Define the main class for the application
+mainClassName = 'com.example.solver.PuzzleSolverApp'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -29,6 +32,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-// Define the main class for the application
-mainClassName = 'com.example.solver.PuzzleSolverApp'
-
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}

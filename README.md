@@ -17,6 +17,22 @@ For example, a 3x3 board layout file would look like:
 ## Running the solver
 
 ```bash
-gradlew build
-gradlew run 8-puzzle-example.txt
+gradlew installDist
+.\build\install\sliding-puzzle-solver\bin\sliding-puzzle-solver 8-puzzle-example.txt
+```
+
+## Example output
+
+```
+13:34:50.403 [main] INFO  com.example.solver.PuzzleSolverApp - Loaded initial board layout
+13:34:50.406 [main] INFO  com.example.solver.PuzzleSolverApp -  === Board Moves: 0 ===
+2 | 8 |
+4 | 1 | 3
+7 | 6 | 5
+13:34:50.468 [main] INFO  com.example.solver.PuzzleSolverApp - Solved board layout
+13:34:50.469 [main] INFO  com.example.solver.PuzzleSolverApp -  === Board Moves: 14 ===
+1 | 2 | 3
+4 | 5 | 6
+7 | 8 |
+13:34:50.469 [main] INFO  com.example.solver.PuzzleSolverApp - List of moves for solution: [DOWN, DOWN, LEFT, LEFT, UP, RIGHT, UP, LEFT, DOWN, DOWN, RIGHT, UP, RIGHT, DOWN]
 ```
