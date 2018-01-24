@@ -1,4 +1,7 @@
 # sliding-puzzle-solver
+
+[![Build Status](https://travis-ci.org/code-fabriek/sliding-puzzle-solver.svg?branch=master)](https://travis-ci.org/code-fabriek/sliding-puzzle-solver)
+
 A sliding puzzle solver app written in Java that attempts to solve an 
 [8-puzzle / 15-puzzle](https://en.wikipedia.org/wiki/15_puzzle) board layout loaded from a text file.  
 
