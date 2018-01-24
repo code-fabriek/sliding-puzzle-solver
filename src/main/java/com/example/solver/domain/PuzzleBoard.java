@@ -1,19 +1,17 @@
 package com.example.solver.domain;
 
+import com.google.common.base.Objects;
 import com.google.common.primitives.Ints;
 
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
-
-enum MoveDirection { UP, DOWN, LEFT, RIGHT }
 
 public class PuzzleBoard {
 
     private int[] tiles;
     private int size;
     private int emptyTilePosition;
+    private List<MoveDirection> moves = new ArrayList<>();
 
     /**
      * Initializes a new sliding puzzle game board.
@@ -24,10 +22,10 @@ public class PuzzleBoard {
      */
     public PuzzleBoard(int size, int[] tiles) throws PuzzleBoardException {
         if (size < 2) {
-            throw new IllegalArgumentException("Puzzle board size must be at least 2 x 2 tiles");
+            throw new IllegalArgumentException("Puzzle board size must be at least 2 x 2 tiles!");
         }
         if (tiles == null || tiles.length == 0) {
-            throw new IllegalArgumentException("An initial set of board values must be provided");
+            throw new IllegalArgumentException("An initial set of board values must be provided!");
         }
         this.size = size;
         this.tiles = tiles.clone();
@@ -35,6 +33,21 @@ public class PuzzleBoard {
 
         this.validateInitialBoard();
 
+    }
+
+    /**
+     * Initializes a new copy of the given sliding puzzle game board.
+     *
+     * @param board the puzzle board instance to copy
+     */
+    public PuzzleBoard(PuzzleBoard board) {
+        if (board == null) {
+            throw new IllegalArgumentException("An existing puzzle board instance must be provided!");
+        }
+
+        this.size = board.getSize();
+        this.tiles = board.getTiles().clone();
+        this.emptyTilePosition = board.getEmptyTilePosition();
     }
 
     public int[] getTiles() {
@@ -49,10 +62,27 @@ public class PuzzleBoard {
         return emptyTilePosition;
     }
 
+    public List<MoveDirection> getMoves() {
+        return moves;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PuzzleBoard that = (PuzzleBoard) o;
+        return Objects.equal(tiles, that.tiles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(tiles);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("\n === Board Values === \n");
+        sb.append(String.format("\n === Board Moves: %d === \n", this.moves.size()));
         for (int i = 0; i < tiles.length; i++) {
             sb.append(tiles[i]);
             if (i % this.size != 0) {
@@ -75,9 +105,9 @@ public class PuzzleBoard {
 
 
     /**
-     * Returns a set of valid moves given the current empty tile position
+     * Returns a set of valid moves given the current empty tile position.
      *
-     * @return
+     * @return the set of currently available moves
      */
     public Set<MoveDirection> getAvailableMoves() {
         EnumSet<MoveDirection> validMoves = EnumSet.noneOf(MoveDirection.class);
@@ -125,6 +155,7 @@ public class PuzzleBoard {
         this.tiles[this.emptyTilePosition] = this.tiles[swapPosition];
         this.tiles[swapPosition] = 0;
         this.emptyTilePosition = swapPosition;
+        this.moves.add(direction);
 
     }
 
@@ -174,8 +205,6 @@ public class PuzzleBoard {
         }
 
     }
-
-
 
     /**
      * Checks that one tile is empty (value == 0) on the board.
