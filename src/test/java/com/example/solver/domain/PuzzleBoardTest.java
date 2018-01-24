@@ -10,13 +10,13 @@ import static org.junit.Assert.*;
 
 public class PuzzleBoardTest {
 
-    static final int[] BOARD_TILES_3x3 = new int[] {
+    public static final int[] BOARD_TILES_3x3 = new int[] {
             0, 3, 7,
             1, 2, 5,
             4, 6, 8
     };
 
-    static final int[] BOARD_TILES_4x4 = new int[] {
+    public static final int[] BOARD_TILES_4x4 = new int[] {
             12, 1, 10, 2,
             7, 11, 4, 14,
             5, 0, 9, 15,

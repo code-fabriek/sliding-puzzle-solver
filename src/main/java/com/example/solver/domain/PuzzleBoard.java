@@ -48,6 +48,7 @@ public class PuzzleBoard {
         this.size = board.getSize();
         this.tiles = board.getTiles().clone();
         this.emptyTilePosition = board.getEmptyTilePosition();
+        this.moves = new ArrayList<>(board.getMoves());
     }
 
     public int[] getTiles() {
@@ -92,6 +93,19 @@ public class PuzzleBoard {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Returns the last tile move direction on this board, if any
+     *
+     * @return the last tile move in the list of saved moves
+     */
+    public MoveDirection getLastMove() {
+        if (!this.getMoves().isEmpty()) {
+            return this.getMoves().get(this.getMoves().size() - 1);
+        } else {
+            return null;
+        }
     }
 
     /**

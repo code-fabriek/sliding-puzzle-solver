@@ -64,14 +64,15 @@ public class PuzzleSolverApp {
     public List<PuzzleBoard> generateBoardStates(PuzzleBoard currentBoard) {
         MoveDirection lastMove = null;
         if (!currentBoard.getMoves().isEmpty()) {
-            lastMove = currentBoard.getMoves().get(currentBoard.getMoves().size() - 1);
+            lastMove = currentBoard.getLastMove();
         }
         Set<MoveDirection> availableMoves = currentBoard.getAvailableMoves();
+        logger.debug("Found available moves: " + availableMoves);
         List<PuzzleBoard> nextBoards = new ArrayList<>(availableMoves.size());
 
         for (MoveDirection move: availableMoves) {
             // check that we don't backtrack to the previous move / board layout
-            if (lastMove != null && move != lastMove.getOppositeDirection()) {
+            if (lastMove == null || move != lastMove.getOppositeDirection()) {
                 PuzzleBoard newBoard = new PuzzleBoard(currentBoard);
                 newBoard.moveTile(move);
                 nextBoards.add(newBoard);
